@@ -954,6 +954,17 @@ main,.container,.page,.content,.wrapper,.site-content{
   .memory-cylinder{width:105px;height:135px;}
   .memory-card{width:105px;height:135px;}
 }
+
+/* Selected photo opens as a true full-screen overlay, with an X in the top-right. */
+#photoFocus.photo-focus{display:none;position:fixed;inset:0;z-index:10000;width:100%;max-width:none;height:100%;height:100dvh;box-sizing:border-box;margin:0;padding:54px 16px 20px;border:0;border-radius:0;background:rgba(12,5,24,.94);box-shadow:none;align-items:center;justify-content:center;flex-direction:column;gap:12px;overflow:auto;}
+#photoFocus.photo-focus.show{display:flex;}
+#photoFocus #focusImage{width:auto;max-width:100%;height:auto;max-height:calc(100dvh - 150px);object-fit:contain;background:transparent;border-radius:12px;}
+#photoFocus .focus-note{max-width:640px;margin:4px auto 0;font-size:1rem;line-height:1.55;}
+#photoFocus .close-focus{position:absolute;top:12px;right:14px;z-index:2;display:flex;align-items:center;justify-content:center;width:46px;height:46px;margin:0;padding:0;border-radius:50%;font-size:32px;line-height:1;background:#ffffff20;border:1px solid #ffffff66;color:#fff;cursor:pointer;}
+#photoFocus .close-focus:focus-visible{outline:3px solid #ffe29a;outline-offset:3px;}
+.memory-card .memory-label{display:none!important;}
+@media(max-width:600px){#photoFocus.photo-focus{padding:60px 10px 16px;}#photoFocus #focusImage{max-height:calc(100dvh - 145px);}#photoFocus .close-focus{top:10px;right:10px;}}
+
 </style>
 </head>
 <body>
@@ -992,20 +1003,20 @@ main,.container,.page,.content,.wrapper,.site-content{
       <p class="intro">The cake burst open and all the memories and little notes came flying out. Tap any photo in the spinning circle to open its note.</p>
       <div class="memory-ring">
         <div class="memory-cylinder" id="memoryCylinder" aria-label="Rotating cylinder of birthday photos">
-          <button class="memory-card" style="--angle:0deg" data-index="0" aria-label="Open memory 1 note"><img class="memory-photo" src="photos/photo1.jpeg" alt="Memory 1" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">📸💖</div><span class="memory-label">Memory 1</span></button>
-          <button class="memory-card" style="--angle:60deg" data-index="1" aria-label="Open memory 2 note"><img class="memory-photo" src="photos/photo2.jpeg" alt="Memory 2" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">✨📷</div><span class="memory-label">Memory 2</span></button>
-          <button class="memory-card" style="--angle:120deg" data-index="2" aria-label="Open memory 3 note"><img class="memory-photo" src="photos/photo3.jpeg" alt="Memory 3" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">🎞️💫</div><span class="memory-label">Memory 3</span></button>
-          <button class="memory-card" style="--angle:180deg" data-index="3" aria-label="Open memory 4 note"><img class="memory-photo" src="photos/photo4.jpeg" alt="Memory 4" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">🌟📸</div><span class="memory-label">Memory 4</span></button>
-          <button class="memory-card" style="--angle:240deg" data-index="4" aria-label="Open memory 5 note"><img class="memory-photo" src="photos/photo5.jpeg" alt="Memory 5" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">💝📷</div><span class="memory-label">Memory 5</span></button>
-          <button class="memory-card" style="--angle:300deg" data-index="5" aria-label="Open memory 6 note"><img class="memory-photo" src="photos/photo6.jpeg" alt="Memory 6" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">🎂💖</div><span class="memory-label">Memory 6</span></button>
+          <button class="memory-card" style="--angle:0deg" data-index="0" aria-label="Open memory 1 note"><img class="memory-photo" src="photos/photo1.jpeg" alt="Memory 1" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">📸💖</div></button>
+          <button class="memory-card" style="--angle:60deg" data-index="1" aria-label="Open memory 2 note"><img class="memory-photo" src="photos/photo2.jpeg" alt="Memory 2" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">✨📷</div></button>
+          <button class="memory-card" style="--angle:120deg" data-index="2" aria-label="Open memory 3 note"><img class="memory-photo" src="photos/photo3.jpeg" alt="Memory 3" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">🎞️💫</div></button>
+          <button class="memory-card" style="--angle:180deg" data-index="3" aria-label="Open memory 4 note"><img class="memory-photo" src="photos/photo4.jpeg" alt="Memory 4" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">🌟📸</div></button>
+          <button class="memory-card" style="--angle:240deg" data-index="4" aria-label="Open memory 5 note"><img class="memory-photo" src="photos/photo5.jpeg" alt="Memory 5" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">💝📷</div></button>
+          <button class="memory-card" style="--angle:300deg" data-index="5" aria-label="Open memory 6 note"><img class="memory-photo" src="photos/photo6.jpeg" alt="Memory 6" loading="lazy" onload="this.nextElementSibling.style.display='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'"><div class="placeholder">🎂💖</div></button>
         </div>
       </div>
       <p class="memory-tip">Tap any photo to open it in a large frame. The other memories keep spinning behind it. 💌</p>
       <div class="photo-focus" id="photoFocus" aria-live="polite">
-        <p class="focus-title" id="focusTitle">A memory for Dudu 💖</p>
+        
         <img id="focusImage" src="" alt="Selected birthday memory">
         <p class="focus-note" id="focusNote"></p>
-        <button type="button" class="close-focus" id="closeFocus">Close photo ✕</button>
+        <button type="button" class="close-focus" id="closeFocus" aria-label="Close photo">×</button>
       </div>
       <div class="note-result" id="noteResult" aria-live="polite">Your little notes will appear here when you choose a photo. 💌</div>
     </div>
@@ -1229,6 +1240,7 @@ function openMemory(index,button){
     focusImage.style.display='none';
   }
   focus.classList.add('show');
+  document.body.style.overflow='hidden';
   document.querySelectorAll('.memory-card').forEach(card=>card.setAttribute('aria-pressed','false'));
   button.setAttribute('aria-pressed','true');
   dropNote(memoryNotes[index]);confetti(22);
@@ -1236,7 +1248,16 @@ function openMemory(index,button){
 }
 document.getElementById('closeFocus').addEventListener('click',()=>{
   document.getElementById('photoFocus').classList.remove('show');
+  document.body.style.overflow='';
 });
+
+document.getElementById('photoFocus').addEventListener('click',(event)=>{
+  if(event.target.id==='photoFocus') document.getElementById('closeFocus').click();
+});
+document.addEventListener('keydown',(event)=>{
+  if(event.key==='Escape' && document.getElementById('photoFocus').classList.contains('show')) document.getElementById('closeFocus').click();
+});
+
 document.querySelectorAll('.memory-card').forEach(card=>{
   card.addEventListener('click',()=>openMemory(Number(card.dataset.index),card));
 });
