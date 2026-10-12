@@ -932,6 +932,28 @@ main,.container,.page,.content,.wrapper,.site-content{
 #titleSecretHeart:hover{transform:scale(1.16)}
 #titleSecretHeart:focus-visible{outline:2px solid #ffd4e8;outline-offset:5px;border-radius:8px}
 #titleSecretHeart.collected{filter:grayscale(1);opacity:.65;transform:scale(.9)}
+
+/* Mobile-first gallery and layout fixes */
+.memory-card{overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;box-sizing:border-box;max-width:100%;}
+.memory-card .memory-photo{width:100%;height:100%;position:absolute;inset:0;object-fit:cover;border-radius:inherit;z-index:0;}
+.memory-card .placeholder{position:relative;z-index:1;background:#160a2a99;border-radius:10px;padding:6px;}
+.memory-card .memory-label{position:relative;z-index:2;background:#160a2acc;padding:4px 7px;border-radius:999px;max-width:100%;overflow-wrap:anywhere;font-size:clamp(10px,2.7vw,13px);}
+@media(max-width:700px){
+  body{overflow-x:hidden;}
+  .section,.hero,.memory-burst{width:auto;max-width:100%;box-sizing:border-box;}
+  .memory-ring{width:min(82vw,320px);height:min(82vw,320px);margin-inline:auto;}
+  .memory-cylinder{width:clamp(100px,31vw,135px);height:clamp(130px,40vw,170px);}
+  .memory-card{width:clamp(100px,31vw,135px);height:clamp(130px,40vw,170px);}
+  .photo-focus{width:auto;margin:14px 8px;padding:12px;}
+  .photo-focus img{max-height:55vh;object-fit:contain;}
+  button,.btn{min-height:44px;touch-action:manipulation;}
+  p,h1,h2,h3{overflow-wrap:anywhere;}
+}
+@media(max-width:380px){
+  .memory-ring{width:78vw;height:78vw;}
+  .memory-cylinder{width:105px;height:135px;}
+  .memory-card{width:105px;height:135px;}
+}
 </style>
 </head>
 <body>
@@ -970,12 +992,12 @@ main,.container,.page,.content,.wrapper,.site-content{
       <p class="intro">The cake burst open and all the memories and little notes came flying out. Tap any photo in the spinning circle to open its note.</p>
       <div class="memory-ring">
         <div class="memory-cylinder" id="memoryCylinder" aria-label="Rotating cylinder of birthday photos">
-          <button class="memory-card" style="--angle:0deg" data-index="0" aria-label="Open memory 1 note"><div class="placeholder">📸💖</div><span class="memory-label">Memory 1</span></button>
-          <button class="memory-card" style="--angle:60deg" data-index="1" aria-label="Open memory 2 note"><div class="placeholder">✨📷</div><span class="memory-label">Memory 2</span></button>
-          <button class="memory-card" style="--angle:120deg" data-index="2" aria-label="Open memory 3 note"><div class="placeholder">🎞️💫</div><span class="memory-label">Memory 3</span></button>
-          <button class="memory-card" style="--angle:180deg" data-index="3" aria-label="Open memory 4 note"><div class="placeholder">🌟📸</div><span class="memory-label">Memory 4</span></button>
-          <button class="memory-card" style="--angle:240deg" data-index="4" aria-label="Open memory 5 note"><div class="placeholder">💝📷</div><span class="memory-label">Memory 5</span></button>
-          <button class="memory-card" style="--angle:300deg" data-index="5" aria-label="Open memory 6 note"><div class="placeholder">🎂💖</div><span class="memory-label">Memory 6</span></button>
+          <button class="memory-card" style="--angle:0deg" data-index="0" aria-label="Open memory 1 note"><img class="memory-photo" src="photos/photo1.jpg" alt="Memory 1" loading="lazy" onerror="this.style.display='none'"><div class="placeholder">📸💖</div><span class="memory-label">Memory 1</span></button>
+          <button class="memory-card" style="--angle:60deg" data-index="1" aria-label="Open memory 2 note"><img class="memory-photo" src="photos/photo2.jpg" alt="Memory 2" loading="lazy" onerror="this.style.display='none'"><div class="placeholder">✨📷</div><span class="memory-label">Memory 2</span></button>
+          <button class="memory-card" style="--angle:120deg" data-index="2" aria-label="Open memory 3 note"><img class="memory-photo" src="photos/photo3.jpg" alt="Memory 3" loading="lazy" onerror="this.style.display='none'"><div class="placeholder">🎞️💫</div><span class="memory-label">Memory 3</span></button>
+          <button class="memory-card" style="--angle:180deg" data-index="3" aria-label="Open memory 4 note"><img class="memory-photo" src="photos/photo4.jpg" alt="Memory 4" loading="lazy" onerror="this.style.display='none'"><div class="placeholder">🌟📸</div><span class="memory-label">Memory 4</span></button>
+          <button class="memory-card" style="--angle:240deg" data-index="4" aria-label="Open memory 5 note"><img class="memory-photo" src="photos/photo5.jpg" alt="Memory 5" loading="lazy" onerror="this.style.display='none'"><div class="placeholder">💝📷</div><span class="memory-label">Memory 5</span></button>
+          <button class="memory-card" style="--angle:300deg" data-index="5" aria-label="Open memory 6 note"><img class="memory-photo" src="photos/photo6.jpg" alt="Memory 6" loading="lazy" onerror="this.style.display='none'"><div class="placeholder">🎂💖</div><span class="memory-label">Memory 6</span></button>
         </div>
       </div>
       <p class="memory-tip">Tap any photo to open it in a large frame. The other memories keep spinning behind it. 💌</p>
@@ -1188,7 +1210,7 @@ function dropNote(message){
 }
 function openMemory(index,button){
   // The cylinder continues rotating behind the large selected-photo frame.
-  const galleryImages=Array.from(document.querySelectorAll('.gallery .photo img'));
+  const galleryImages=Array.from(document.querySelectorAll('.memory-card .memory-photo'));
   const img=galleryImages[index];
   const src=img && img.complete && img.naturalWidth>0 ? img.src : null;
   const focus=document.getElementById('photoFocus');
